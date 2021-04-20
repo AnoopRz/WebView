@@ -1,0 +1,71 @@
+<html>
+
+<button id="rzp-button1">Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</script>
+<script type="text/javascript">
+var options = {
+    "key":"rzp_live_kJTRCYIrwHfyns", // Enter the Key ID generated from the Dashboard
+     // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise  
+    
+     "currency":"INR", 
+     "notes":{"subscription_id":"sub_Gza0S8Z2cDcjrZ","account_id":"11fe0626", "offer_id":-1, "server":3, "product":"com.NNGames.fanapp_pro", "ver":"1.0.3","sdk_ver":"0.9983"},
+    'prefill':{
+        'email':"afdasdf@gmail.com",
+        'contact':'8095466731',
+    },
+    'timeout':10000,
+    'modal':{
+    'handleback':true
+},
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+    }
+    //"order_id": "order_G0bYFtrtaFeoXF", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    /*
+    'method': {
+        "netbanking":"true",
+        "card":'true',
+        "cardless_emi":'false',
+        "wallet":"true",
+        "emi":"false",
+        "upi":"false"
+    },
+    'hidden':{
+        'contact':'true','email':'true'
+    },
+    */
+   
+ ,
+   
+    "theme": {
+        "color": "#3399cc",
+        "backdrop_color":"green",
+        "close_button":"true",
+        "debit_card":"true" ,
+        "hide_topbar": false,
+        "image_padding": true,
+        "image_frame": false,
+        "close_button": true,
+        "close_method_back": false,
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+
+</html>
